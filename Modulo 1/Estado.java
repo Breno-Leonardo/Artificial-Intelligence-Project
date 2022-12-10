@@ -2,10 +2,10 @@ package trabIA;
 
 import java.util.ArrayList;
  
-public class Estado implements Comparable<Estado> {
+public class Estado  {
 
 	private int grade[][];
-	private Integer prioridade=0;
+	
 	
 	private Movimento movimento;
 	private ArrayList<Movimento> historicoMovimentos= new ArrayList<Movimento>();
@@ -20,17 +20,9 @@ public class Estado implements Comparable<Estado> {
 		}
 		this.historicoMovimentos=historicoMovimentos;
 		this.movimento = movimento;
-		this.prioridade=  prioridade;
+		
 	}
 
-	public void setPrioridade(int prioridade) {
-		this.prioridade = prioridade;
-	}
-
-	@Override
-	public int compareTo(Estado b) {
-		return this.getPrioridade().compareTo(b.getPrioridade());
-	}
 
 	public int[][] getGrade() {
 		return grade;
@@ -56,9 +48,7 @@ public class Estado implements Comparable<Estado> {
 		this.historicoMovimentos = historicoMovimentos;
 	}
 
-	public Integer getPrioridade() {
-		return prioridade;
-	}
+	
 	
 
 	

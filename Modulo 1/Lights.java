@@ -14,7 +14,7 @@ public class Lights {
 		for (int i = 0; i < tamanho; i++) {
 			for (int j = 0; j < tamanho; j++) {
 				if (grade[i][j] == 1)
-					System.out.print("■ ");
+					System.out.print("■ ");
 				else
 					System.out.print("  ");
 //				System.out.print(grade[i][j]);
@@ -56,7 +56,7 @@ public class Lights {
 			divisor--;
 		}
 
-		//define a FA de cada quadrado
+		//define um numero de cada quadrado com base no numero de quadrados que vai desligar
 		for (int i = 0; i < tamanho; i++) {
 			for (int j = 0; j < tamanho; j++) {
 				double parametro = 1;
@@ -90,15 +90,16 @@ public class Lights {
 						FA--;
 				}
 				
+				// Com o numero de cada quadrado define a FA baseada na heuristica
 				//prioridade para divisores
 				if (maioresDivisores.contains(FA)) {
 					gradeFA[i][j] = parametro / FA;
 
-				} else {
-					if (FA < 0) {
+				} else {//não sao os melhores da heuristica
+					if (FA < 0) {// vai acender mais quadrados do que desligar
 						gradeFA[i][j] = 10000 / (-1 * FA);
 					} else
-						gradeFA[i][j] = parametro / FA + tamanho;
+						gradeFA[i][j] = (parametro / FA) + tamanho;
 
 				}
 				if (FA == 0)
@@ -111,7 +112,7 @@ public class Lights {
 		// marcando os que ja foram apertados
 		for (int i = 0; i < historicoMovimentos.size(); i++) {
 			Movimento mov= historicoMovimentos.get(i);
-			gradeFA[mov.i][mov.j]=JA_APERTOU;
+			gradeFA[mov.getI()][mov.getJ()]=JA_APERTOU;
 		}
 		
 		//selecionando o min FA
@@ -157,7 +158,7 @@ public class Lights {
 			for (int j = 0; j < tamanho; j++) {
 				boolean add= true;
 				for (Movimento movimento : FAsIguais) {
-					if((movimento.i==i && movimento.j==j) || (movimento.i==escolhido.i && movimento.j==escolhido.j) ) {
+					if((movimento.getI()==i && movimento.getJ()==j) || (movimento.getI()==escolhido.getI() && movimento.getJ()==escolhido.getJ()) ) {
 						add=false;
 					}
 				}
@@ -173,8 +174,8 @@ public class Lights {
 		historicoMovimentos.add(escolhido);
 		
 		contadorMovimentosFeitos++;
-		int i = escolhido.i;
-		int j = escolhido.j;
+		int i = escolhido.getI();
+		int j = escolhido.getJ();
 		grade[i][j] *= -1;
 		if (i > 0)
 			grade[i - 1][j] *= -1;
@@ -195,8 +196,8 @@ public class Lights {
 	
 	public static boolean fazMovimentoEstado(int[][] grade,Movimento mov, int tamanho, ArrayList<Movimento> historicoMovimentos) {
 		contadorMovimentosFeitos++;
-		int i = mov.i;
-		int j = mov.j;
+		int i = mov.getI();
+		int j = mov.getJ();
 		grade[i][j] *= -1;
 		if (i > 0)
 			grade[i - 1][j] *= -1;
@@ -216,8 +217,8 @@ public class Lights {
 		return true;
 	}
 	public static boolean fazMovimentoPrint(int[][] grade,Movimento mov, int tamanho) {
-		int i = mov.i;
-		int j = mov.j;
+		int i = mov.getI();
+		int j = mov.getJ();
 		grade[i][j] *= -1;
 		if (i > 0)
 			grade[i - 1][j] *= -1;
@@ -288,7 +289,7 @@ public class Lights {
 		
 		inicializando(grade, tamanho);
 		for (int i = 0; i < historicoMovimentos.size(); i++) {
-			System.out.println("Movimento "+i+": ("+(historicoMovimentos.get(i).i+1)+","+(historicoMovimentos.get(i).j+1)+")");
+			System.out.println("Movimento "+i+": ("+(historicoMovimentos.get(i).getI()+1)+","+(historicoMovimentos.get(i).getJ()+1)+")");
 			fazMovimentoPrint(grade, historicoMovimentos.get(i), tamanho);
 		}
 		
